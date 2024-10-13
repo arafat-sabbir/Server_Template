@@ -1,4 +1,5 @@
 // Import the model
+import { TUser } from './user.interface';
 import UserModel from './user.model'; 
 
 /**
@@ -7,7 +8,7 @@ import UserModel from './user.model';
  * @param data - The data to create a new user.
  * @returns {Promise<User>} - The created user.
  */
-const createUser = async (data: object) => {
+const createUser = async (data: TUser) => {
   const newUser = new UserModel(data);
   return await newUser.save();
 };

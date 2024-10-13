@@ -74,101 +74,23 @@ if (command === 'resource') {
       // Create route file content
       const routeContent = `
 // Import Router from express
+// Import Router from express
 import { Router } from 'express';
 
 // Import controller from corresponding module
 import { 
   create${capitalizedResourceName},
-  createMany${capitalizedResourceName},
-  update${capitalizedResourceName},
-  updateMany${capitalizedResourceName},
-  delete${capitalizedResourceName},
-  deleteMany${capitalizedResourceName},
-  get${capitalizedResourceName}ById,
-  getMany${capitalizedResourceName}
-} from './${args[0]}.controller';
+} from './${resourceName}.controller';
 
 //Import validation from corresponding module
-import { validate${capitalizedResourceName}Id } from './${args[0]}.validation';
 
 // Initialize router
 const router = Router();
 
-// Define route handlers
-/**
- * @route POST /api/v1/${args[0]}/create-${args[0]}
- * @description Create a new ${args[0]}
- * @access Public
- * @param {function} controller - ['create${capitalizedResourceName}']
- */
-router.post("/create-${args[0]}", create${capitalizedResourceName});
+router.post("/create-${resourceName}", create${capitalizedResourceName});
 
-/**
- * @route POST /api/v1/${args[0]}/create-${args[0]}/many
- * @description Create multiple ${args[0]}
- * @access Public
- * @param {function} controller - ['createMany${capitalizedResourceName}']
- */
-router.post("/create-${args[0]}/many", createMany${capitalizedResourceName});
-
-/**
- * @route PUT /api/v1/${args[0]}/update-${args[0]}/many
- * @description Update multiple ${args[0]} information
- * @access Public
- * @param {function} controller - ['updateMany${capitalizedResourceName}']
- */
-router.put("/update-${args[0]}/many", updateMany${capitalizedResourceName});
-
-/**
- * @route PUT /api/v1/${args[0]}/update-${args[0]}/:id
- * @description Update ${args[0]} information
- * @param {string} id - The ID of the ${args[0]} to update
- * @access Public
- * @param {function} controller - ['update${capitalizedResourceName}']
- * @param {function} validation - ['validate${capitalizedResourceName}Id']
- */
-router.put("/update-${args[0]}/:id", validate${capitalizedResourceName}Id, update${capitalizedResourceName});
-
-
-/**
- * @route DELETE /api/v1/${args[0]}/delete-${args[0]}/many
- * @description Delete multiple ${args[0]}
- * @access Public
- * @param {function} controller - ['deleteMany${capitalizedResourceName}']
- */
-router.delete("/delete-${args[0]}/many", deleteMany${capitalizedResourceName});
-
-/**
- * @route DELETE /api/v1/${args[0]}/delete-${args[0]}/:id
- * @description Delete a ${args[0]}
- * @param {string} id - The ID of the ${args[0]} to delete
- * @access Public
- * @param {function} controller - ['delete${capitalizedResourceName}']
- * @param {function} validation - ['validate${capitalizedResourceName}Id']
- */
-router.delete("/delete-${args[0]}/:id", validate${capitalizedResourceName}Id, delete${capitalizedResourceName});
-
-/**
- * @route GET /api/v1/${args[0]}/get-${args[0]}/many
- * @description Get multiple ${args[0]}
- * @access Public
- * @param {function} controller - ['getMany${capitalizedResourceName}']
- */
-router.get("/get-${args[0]}/many", getMany${capitalizedResourceName});
-
-/**
- * @route GET /api/v1/${args[0]}/get-${args[0]}/:id
- * @description Get a ${args[0]} by ID
- * @param {string} id - The ID of the ${args[0]} to retrieve
- * @access Public
- * @param {function} controller - ['get${capitalizedResourceName}ById']
- * @param {function} validation - ['validate${capitalizedResourceName}Id']
- */
-router.get("/get-${args[0]}/:id", validate${capitalizedResourceName}Id, get${capitalizedResourceName}ById);
-
-// Export the router
-const ${capitalizedResourceName}Routes = router;
-export default ${capitalizedResourceName}Routes;
+const ${resourceName}Routes = router;
+export default ${resourceName}Routes;
     `;
 
       // Path to the route file
@@ -190,102 +112,17 @@ import sendResponse from '../../utils/sendResponse';
  * @param {Response} res - The response object used to send the response.
  * @returns {void}
  */
-export const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
+const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   // Call the service method to create a new ${args[0]} and get the result
   const result = await ${resourceName}Services.create${capitalizedResourceName}(req.body);
   // Send a success response with the created resource data
     sendResponse(res, {
-    message: 'New ${resourceName} Added Successfully',
+    message: 'New ${capitalizedResourceName} created Successfully',
     data: result,
   });
 });
 
-/**
- * Controller function to handle the creation of multiple ${args[0]}.
- *
- * @param {Request} req - The request object containing an array of ${args[0]} data in the body.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
-export const createMany${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
-  // Call the service method to create multiple ${resourceName}s and get the result
-  const result = await ${resourceName}Services.createMany${capitalizedResourceName}(req.body);
-  // Send a success response with the created resources data
-   sendResponse(res, {
-    message: '${resourceName}s Created Successfully',
-    data: result,
-  });
-});
 
-/**
- * Controller function to handle the update operation for a single ${args[0]}.
- *
- * @param {Request} req - The request object containing the ID of the ${args[0]} to update in URL parameters and the updated data in the body.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
-export const update${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  // Call the service method to update the ${args[0]} by ID and get the result
-  const result = await ${resourceName}Services.update${capitalizedResourceName}(id, req.body);
-  // Send a success response with the updated resource data
- sendResponse(res, {
-    message: '${resourceName} Updated Successfully',
-    data: result,
-  });
-});
-
-/**
- * Controller function to handle the update operation for multiple ${args[0]}.
- *
- * @param {Request} req - The request object containing an array of ${args[0]} data in the body.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
-export const updateMany${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
-  // Call the service method to update multiple ${args[0]} and get the result
-  const result = await ${resourceName}Services.updateMany${capitalizedResourceName}(req.body);
-  // Send a success response with the updated resources data
-    sendResponse(res, {
-    message: '${resourceName}s Updated Successfully',
-    data: result,
-  });
-});
-
-/**
- * Controller function to handle the deletion of a single ${args[0]}.
- *
- * @param {Request} req - The request object containing the ID of the ${args[0]} to delete in URL parameters.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
-export const delete${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  // Call the service method to delete the ${args[0]} by ID
-  await ${resourceName}Services.delete${capitalizedResourceName}(id);
-  // Send a success response confirming the deletion
-  sendResponse(res, {
-    message: '${resourceName} Deleted Successfully',
-    data: {},
-  });
-});
-
-/**
- * Controller function to handle the deletion of multiple ${args[0]}.
- *
- * @param {Request} req - The request object containing an array of IDs of ${args[0]} to delete in the body.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
-export const deleteMany${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
-  // Call the service method to delete multiple ${args[0]} and get the result
-  await ${resourceName}Services.deleteMany${capitalizedResourceName}(req.body);
-  // Send a success response confirming the deletions
-  sendResponse(res, {
-    message: '${resourceName}s Deleted Successfully',
-    data: {},
-  });
-});
 
 /**
  * Controller function to handle the retrieval of a single ${args[0]} by ID.
@@ -294,13 +131,13 @@ export const deleteMany${capitalizedResourceName} = catchAsync(async (req: Reque
  * @param {Response} res - The response object used to send the response.
  * @returns {void}
  */
-export const get${capitalizedResourceName}ById = catchAsync(async (req: Request, res: Response) => {
+ const getSingle${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   // Call the service method to get the ${args[0]} by ID and get the result
   const result = await ${resourceName}Services.get${capitalizedResourceName}ById(id);
   // Send a success response with the retrieved resource data
    sendResponse(res, {
-    message: '${resourceName} Retrieved Successfully',
+    message: '${capitalizedResourceName} Retrieved Successfully',
     data: result,
   });
 });
@@ -312,15 +149,22 @@ export const get${capitalizedResourceName}ById = catchAsync(async (req: Request,
  * @param {Response} res - The response object used to send the response.
  * @returns {void}
  */
-export const getMany${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
+ const getAll${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   // Call the service method to get multiple ${args[0]} based on query parameters and get the result
-  const result = await ${resourceName}Services.getMany${capitalizedResourceName}(req.query);
+  const result = await ${resourceName}Services.getAll${capitalizedResourceName}(req.query);
   // Send a success response with the retrieved resources data
   sendResponse(res, {
-    message: '${resourceName} Retrieved Successfully',
+    message: '${capitalizedResourceName}s Retrieved Successfully',
     data: result,
   });
 });
+
+
+export const ${resourceName}Controllers = {
+  create${capitalizedResourceName},
+  getSingle${capitalizedResourceName},
+  getAll${capitalizedResourceName},
+}
     `;
 
       // Path to the controller file
@@ -378,52 +222,17 @@ export interface T${capitalizedResourceName} {
 
       // Create Zod validation schema content
       const validationContent = `
-import { NextFunction, Request, Response } from 'express';
-import { isMongoId } from 'validator';
-import { z } from 'zod';
-import zodErrorHandler from '../../handlers/zod-error-handler';
+  import { z } from "zod";
 
-/**
- * Zod schema for validating ${resourceName} data.
- */
-const zod${capitalizedResourceName}Schema = z.object({
-  id: z
-    .string({
-      required_error: "Id is required",
-      invalid_type_error: "Please provide a valid id",
-    })
-    .refine((id: string) => isMongoId(id), {
-      message: "Please provide a valid id",
-    }),
-  ids: z
-    .array(z.string().refine((id: string) => isMongoId(id), {
-      message: "Each ID must be a valid MongoDB ObjectId",
-    }))
-    .min(1, {
-      message: "At least one ID must be provided",
-    }),
-}).strict();
-    
-/**
- * Middleware function to validate ${resourceName} ID using Zod schema.
- * @param {object} req - The request object.
- * @param {object} res - The response object.
- * @param {function} next - The next middleware function.
- * @returns {void}
- */
-export const validate${capitalizedResourceName}Id = (req: Request, res: Response, next: NextFunction) => {
-  // Validate request params
-  const { error, success } = zod${capitalizedResourceName}Schema.pick({ id: true }).safeParse({ id: req.params.id });
+const create${capitalizedResourceName}Schema = z.object({
+  body:z.object({
 
-  // Check if validation was successful
-  if (!success) {
-    // If validation failed, use the Zod error handler to send an error response
-    return zodErrorHandler(req, res, error);
-  }
+  })
+})
 
-  // If validation passed, proceed to the next middleware function
-  return next();
-};
+export const ${resourceName}Validation = {
+  create${capitalizedResourceName}Schema
+}
     `;
 
       // Path to the zod validation file
@@ -447,59 +256,6 @@ const create${capitalizedResourceName} = async (data: object) => {
   return await new${capitalizedResourceName}.save();
 };
 
-/**
- * Service function to create multiple ${resourceName}.
- *
- * @param data - An array of data to create multiple ${resourceName}.
- * @returns {Promise<${capitalizedResourceName}[]>} - The created ${resourceName}.
- */
-const createMany${capitalizedResourceName} = async (data: object[]) => {
-  return await ${capitalizedResourceName}Model.insertMany(data);
-};
-
-/**
- * Service function to update a single ${resourceName} by ID.
- *
- * @param id - The ID of the ${resourceName} to update.
- * @param data - The updated data for the ${resourceName}.
- * @returns {Promise<${capitalizedResourceName}>} - The updated ${resourceName}.
- */
-const update${capitalizedResourceName} = async (id: string, data: object) => {
-  return await ${capitalizedResourceName}Model.findByIdAndUpdate(id, data, { new: true });
-};
-
-/**
- * Service function to update multiple ${resourceName}.
- *
- * @param data - An array of data to update multiple ${resourceName}.
- * @returns {Promise<${capitalizedResourceName}[]>} - The updated ${resourceName}.
- */
-const updateMany${capitalizedResourceName} = async (data: { id: string, updates: object }[]) => {
-  const updatePromises = data.map(({ id, updates }) =>
-    ${capitalizedResourceName}Model.findByIdAndUpdate(id, updates, { new: true })
-  );
-  return await Promise.all(updatePromises);
-};
-
-/**
- * Service function to delete a single ${resourceName} by ID.
- *
- * @param id - The ID of the ${resourceName} to delete.
- * @returns {Promise<${capitalizedResourceName}>} - The deleted ${resourceName}.
- */
-const delete${capitalizedResourceName} = async (id: string) => {
-  return await ${capitalizedResourceName}Model.findByIdAndDelete(id);
-};
-
-/**
- * Service function to delete multiple ${resourceName}.
- *
- * @param ids - An array of IDs of ${resourceName} to delete.
- * @returns {Promise<${capitalizedResourceName}[]>} - The deleted ${resourceName}.
- */
-const deleteMany${capitalizedResourceName} = async (ids: string[]) => {
-  return await ${capitalizedResourceName}Model.deleteMany({ _id: { $in: ids } });
-};
 
 /**
  * Service function to retrieve a single ${resourceName} by ID.
@@ -517,19 +273,14 @@ const get${capitalizedResourceName}ById = async (id: string) => {
  * @param query - The query parameters for filtering ${resourceName}.
  * @returns {Promise<${capitalizedResourceName}[]>} - The retrieved ${resourceName}.
  */
-const getMany${capitalizedResourceName} = async (query: object) => {
+const getAll${capitalizedResourceName} = async (query: object) => {
   return await ${capitalizedResourceName}Model.find(query);
 };
 
 export const ${resourceName}Services = {
   create${capitalizedResourceName},
-  createMany${capitalizedResourceName},
-  update${capitalizedResourceName},
-  updateMany${capitalizedResourceName},
-  delete${capitalizedResourceName},
-  deleteMany${capitalizedResourceName},
   get${capitalizedResourceName}ById,
-  getMany${capitalizedResourceName},
+  getAll${capitalizedResourceName},
 };
 
     `;
@@ -540,34 +291,40 @@ export const ${resourceName}Services = {
 
       // Log the creation of the controller, interface, model , route, service & validation files
       console.log(
-        `${GREEN}CREATE ${RESET}${formatPath(
-          controllerFilePath
-        )} ${BLUE}(${Buffer.byteLength(controllerContent, 'utf8')} bytes)`
+        `${GREEN}CREATE ${RESET}${formatPath(controllerFilePath)} ${BLUE}(${Buffer.byteLength(
+          controllerContent,
+          'utf8'
+        )} bytes)`
       );
       console.log(
-        `${GREEN}CREATE ${RESET}${formatPath(
-          interfaceFilePath
-        )} ${BLUE}(${Buffer.byteLength(interfaceContent, 'utf8')} bytes)`
+        `${GREEN}CREATE ${RESET}${formatPath(interfaceFilePath)} ${BLUE}(${Buffer.byteLength(
+          interfaceContent,
+          'utf8'
+        )} bytes)`
       );
       console.log(
-        `${GREEN}CREATE ${RESET}${formatPath(
-          modelFilePath
-        )} ${BLUE}(${Buffer.byteLength(modelContent, 'utf8')} bytes)`
+        `${GREEN}CREATE ${RESET}${formatPath(modelFilePath)} ${BLUE}(${Buffer.byteLength(
+          modelContent,
+          'utf8'
+        )} bytes)`
       );
       console.log(
-        `${GREEN}CREATE ${RESET}${formatPath(
-          routeFilePath
-        )} ${BLUE}(${Buffer.byteLength(routeContent, 'utf8')} bytes)`
+        `${GREEN}CREATE ${RESET}${formatPath(routeFilePath)} ${BLUE}(${Buffer.byteLength(
+          routeContent,
+          'utf8'
+        )} bytes)`
       );
       console.log(
-        `${GREEN}CREATE ${RESET}${formatPath(
-          serviceFilePath
-        )} ${BLUE}(${Buffer.byteLength(serviceContent, 'utf8')} bytes)`
+        `${GREEN}CREATE ${RESET}${formatPath(serviceFilePath)} ${BLUE}(${Buffer.byteLength(
+          serviceContent,
+          'utf8'
+        )} bytes)`
       );
       console.log(
-        `${GREEN}CREATE ${RESET}${formatPath(
-          validationFilePath
-        )} ${BLUE}(${Buffer.byteLength(validationContent, 'utf8')} bytes)`
+        `${GREEN}CREATE ${RESET}${formatPath(validationFilePath)} ${BLUE}(${Buffer.byteLength(
+          validationContent,
+          'utf8'
+        )} bytes)`
       );
     });
 
@@ -576,3 +333,4 @@ export const ${resourceName}Services = {
   console.error(`Unknown command: ${command}`);
   process.exit(1);
 }
+
