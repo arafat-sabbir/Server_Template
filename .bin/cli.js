@@ -105,13 +105,8 @@ import { ${resourceName}Services } from './${args[0]}.service';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 
-/**
- * Controller function to handle the creation of a single ${capitalizedResourceName}.
- *
- * @param {Request} req - The request object containing ${args[0]} data in the body.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
+// Controller function to handle the creation of a single ${capitalizedResourceName}.
+
 const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   // Call the service method to create a new ${args[0]} and get the result
   const result = await ${resourceName}Services.create${capitalizedResourceName}(req.body);
@@ -124,13 +119,8 @@ const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Re
 
 
 
-/**
- * Controller function to handle the retrieval of a single ${args[0]} by ID.
- *
- * @param {Request} req - The request object containing the ID of the ${args[0]} to retrieve in URL parameters.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
+// Controller function to handle the retrieval of a single ${args[0]} by ID.
+
  const getSingle${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   // Call the service method to get the ${args[0]} by ID and get the result
@@ -142,13 +132,9 @@ const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Re
   });
 });
 
-/**
- * Controller function to handle the retrieval of multiple ${args[0]}.
- *
- * @param {Request} req - The request object containing query parameters for filtering.
- * @param {Response} res - The response object used to send the response.
- * @returns {void}
- */
+
+// Controller function to handle the retrieval of multiple ${args[0]}.
+
  const getAll${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   // Call the service method to get multiple ${args[0]} based on query parameters and get the result
   const result = await ${resourceName}Services.getAll${capitalizedResourceName}(req.query);
@@ -188,13 +174,13 @@ const ${capitalizedResourceName}Schema: Schema<T${capitalizedResourceName}> = ne
   //   required: true,
   //   trim: true,
   // },
-});
+},{timestamps:true,versionKey:false});
 
 // Create the ${capitalizedResourceName} model
-const ${capitalizedResourceName} = mongoose.model<T${capitalizedResourceName}>('${capitalizedResourceName}', ${capitalizedResourceName}Schema);
+const ${capitalizedResourceName}Model = mongoose.model<T${capitalizedResourceName}>('${capitalizedResourceName}', ${capitalizedResourceName}Schema);
 
 // Export the ${capitalizedResourceName} model
-export default ${capitalizedResourceName};
+export default ${capitalizedResourceName}Model;
     `;
 
       // Path to the model file
@@ -204,12 +190,7 @@ export default ${capitalizedResourceName};
 
       // Create interface file content
       const interfaceContent = `
-/**
- * Type definition for ${capitalizedResourceName}.
- *
- * This type defines the structure of a single ${resourceName} object.
- * @interface T${capitalizedResourceName}
- */
+
 export interface T${capitalizedResourceName} {
   // Add fields as needed
 }
@@ -245,34 +226,22 @@ export const ${resourceName}Validation = {
 // Import the model
 import ${capitalizedResourceName}Model from './${args[0]}.model'; 
 
-/**
- * Service function to create a new ${resourceName}.
- *
- * @param data - The data to create a new ${resourceName}.
- * @returns {Promise<${capitalizedResourceName}>} - The created ${resourceName}.
- */
+// Service function to create a new ${resourceName}.
+
 const create${capitalizedResourceName} = async (data: object) => {
-  const new${capitalizedResourceName} = new ${capitalizedResourceName}Model(data);
-  return await new${capitalizedResourceName}.save();
+  const new${capitalizedResourceName} = await ${capitalizedResourceName}Model.create(data);
+  return new${capitalizedResourceName};
 };
 
 
-/**
- * Service function to retrieve a single ${resourceName} by ID.
- *
- * @param id - The ID of the ${resourceName} to retrieve.
- * @returns {Promise<${capitalizedResourceName}>} - The retrieved ${resourceName}.
- */
+// Service function to retrieve a single ${resourceName} by ID.
+
 const get${capitalizedResourceName}ById = async (id: string) => {
   return await ${capitalizedResourceName}Model.findById(id);
 };
 
-/**
- * Service function to retrieve multiple ${resourceName} based on query parameters.
- *
- * @param query - The query parameters for filtering ${resourceName}.
- * @returns {Promise<${capitalizedResourceName}[]>} - The retrieved ${resourceName}.
- */
+// Service function to retrieve multiple ${resourceName} based on query parameters.
+
 const getAll${capitalizedResourceName} = async (query: object) => {
   return await ${capitalizedResourceName}Model.find(query);
 };

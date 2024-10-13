@@ -1,6 +1,5 @@
 //An Custom Error Handler For Handleing The Mongoose Duplicate Error
 
-import mongoose from 'mongoose';
 import { TErrorSources } from '../interface/error';
 
 const handleDuplicateError = (err: any) => {
@@ -13,7 +12,7 @@ const handleDuplicateError = (err: any) => {
       message: `${extractedMessage} already exists`,
     },
   ];
-  return { statusCode, message: 'Duplicate Error', errorSources };
+  return { statusCode, message: `${extractedMessage} already exists`, errorSources };
 };
 
 export default handleDuplicateError;
