@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
-export const generateToken = async (
-  jwtPayload: { id: string; role: string },
+import { Types } from 'mongoose';
+ const generateToken = async (
+  jwtPayload: { id: string|Types.ObjectId; role: string },
   secret: string,
   expiresIn: string
 ) => {
@@ -8,3 +9,5 @@ export const generateToken = async (
     expiresIn,
   });
 };
+
+export default generateToken;

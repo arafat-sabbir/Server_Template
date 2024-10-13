@@ -78,16 +78,15 @@ if (command === 'resource') {
 import { Router } from 'express';
 
 // Import controller from corresponding module
-import { 
-  create${capitalizedResourceName},
-} from './${resourceName}.controller';
+import { ${resourceName}Controllers } from './${resourceName}.controller';
+import validateRequest from '../../middlewares/validateRequest';
+import { ${resourceName}Validation } from './${resourceName}.validation';
 
-//Import validation from corresponding module
 
 // Initialize router
 const router = Router();
 
-router.post("/create-${resourceName}", create${capitalizedResourceName});
+router.post("/create-${resourceName}",validateRequest(${resourceName}Validation.create${capitalizedResourceName}Schema), ${resourceName}Controllers.create${capitalizedResourceName});
 
 const ${resourceName}Routes = router;
 export default ${resourceName}Routes;
@@ -106,7 +105,6 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 
 // Controller function to handle the creation of a single ${capitalizedResourceName}.
-
 const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   // Call the service method to create a new ${args[0]} and get the result
   const result = await ${resourceName}Services.create${capitalizedResourceName}(req.body);
@@ -120,7 +118,6 @@ const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Re
 
 
 // Controller function to handle the retrieval of a single ${args[0]} by ID.
-
  const getSingle${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   // Call the service method to get the ${args[0]} by ID and get the result
@@ -134,7 +131,6 @@ const create${capitalizedResourceName} = catchAsync(async (req: Request, res: Re
 
 
 // Controller function to handle the retrieval of multiple ${args[0]}.
-
  const getAll${capitalizedResourceName} = catchAsync(async (req: Request, res: Response) => {
   // Call the service method to get multiple ${args[0]} based on query parameters and get the result
   const result = await ${resourceName}Services.getAll${capitalizedResourceName}(req.query);
@@ -205,6 +201,7 @@ export interface T${capitalizedResourceName} {
       const validationContent = `
   import { z } from "zod";
 
+// Validation Schema For create${capitalizedResourceName}
 const create${capitalizedResourceName}Schema = z.object({
   body:z.object({
 
@@ -227,7 +224,6 @@ export const ${resourceName}Validation = {
 import ${capitalizedResourceName}Model from './${args[0]}.model'; 
 
 // Service function to create a new ${resourceName}.
-
 const create${capitalizedResourceName} = async (data: object) => {
   const new${capitalizedResourceName} = await ${capitalizedResourceName}Model.create(data);
   return new${capitalizedResourceName};
@@ -235,13 +231,11 @@ const create${capitalizedResourceName} = async (data: object) => {
 
 
 // Service function to retrieve a single ${resourceName} by ID.
-
 const get${capitalizedResourceName}ById = async (id: string) => {
   return await ${capitalizedResourceName}Model.findById(id);
 };
 
 // Service function to retrieve multiple ${resourceName} based on query parameters.
-
 const getAll${capitalizedResourceName} = async (query: object) => {
   return await ${capitalizedResourceName}Model.find(query);
 };

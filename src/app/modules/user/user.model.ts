@@ -27,6 +27,11 @@ const UserSchema: Schema<TUser> = new Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+      type: String,
+      default: 'user',
+      enum: ['user', 'admin'],
+    },
   },
   { timestamps: true, versionKey: false }
 );
@@ -36,3 +41,4 @@ const UserModel = mongoose.model<TUser>('User', UserSchema);
 
 // Export the User model
 export default UserModel;
+

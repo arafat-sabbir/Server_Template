@@ -10,5 +10,6 @@ export interface TUser {
   password: string;
   photo: string;
   isVerified: boolean;
+  role:"user" | "admin"
 }
 
