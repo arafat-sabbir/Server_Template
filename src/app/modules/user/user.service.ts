@@ -22,9 +22,7 @@ const loginUser = async (payload: { email: string; password: string }) => {
   if (!user) {
     throw new Error('User not found');
   }
-  if (!user.isVerified) {
-    throw new Error('Please Verify Your Account');
-  }
+  
   const isMatch = bcrypt.compareSync(payload.password, user.password);
   if (!isMatch) {
     throw new Error('Incorrect Password Try Again');

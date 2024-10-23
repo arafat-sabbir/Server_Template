@@ -22,16 +22,7 @@ const UserSchema: Schema<TUser> = new Schema(
     },
     photo: {
       type: String,
-    },
-    isVerified: {
-      type: Boolean,
-      default: false,
-    },
-    role: {
-      type: String,
-      default: 'user',
-      enum: ['user', 'admin'],
-    },
+    }
   },
   { timestamps: true, versionKey: false }
 );
