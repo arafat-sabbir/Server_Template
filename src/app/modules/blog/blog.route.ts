@@ -19,7 +19,6 @@ router.post(
   convertFilePath,
   (req: Request, res: Response, next: NextFunction) => {
     req.body = { ...req.body, photo: req.file?.path };
-    console.log(req.body);
     next();
   },
   validateRequest(blogValidation.createBlogSchema),
@@ -36,6 +35,9 @@ convertFilePath,
   req.body = { ...req.body, photo: req.file?.path };
   next();
 }, AuthorizeRequest(), blogControllers.editBlog);
+
+
+router.delete('/:id', AuthorizeRequest(), blogControllers.deleteBlog);
 
 const blogRoutes = router;
 export default blogRoutes;

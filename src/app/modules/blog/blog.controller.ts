@@ -52,9 +52,22 @@ const editBlog = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+const deleteBlog = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  // Call the service method to delete the blog by ID and get the result
+  const result = await blogServices.deleteBlog(id);
+  // Send a success response with the deleted resource data
+  sendResponse(res, {
+    message: 'Blog Deleted Successfully',
+    data: result,
+  });
+})
+
 export const blogControllers = {
   createBlog,
   getSingleBlog,
   getAllBlog,
-  editBlog
+  editBlog,
+  deleteBlog
 }

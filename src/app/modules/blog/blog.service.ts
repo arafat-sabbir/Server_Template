@@ -1,4 +1,5 @@
 // Import the model
+import deleteFile from '../../utils/deleteImage';
 import { TBlog } from './blog.interface';
 import BlogModel from './blog.model';
 
@@ -20,7 +21,6 @@ const getAllBlog = async (query: object) => {
 
 // // Service function to retrieve multiple blog based on query parameters.
 const editBlog = async (id: string, payload: Partial<TBlog>) => {
-
   // Initialize updatedData as an empty object
   let updatedData: Partial<TBlog> = {};
 
@@ -31,7 +31,6 @@ const editBlog = async (id: string, payload: Partial<TBlog>) => {
       updatedData = { ...updatedData, [typedKey]: payload[typedKey] };
     }
   });
-  console.log(updatedData,"updatedData");
   // Find and update the blog by ID
   const updatedBlog = await BlogModel.findByIdAndUpdate(id, updatedData, {
     new: true,
@@ -40,10 +39,27 @@ const editBlog = async (id: string, payload: Partial<TBlog>) => {
   return updatedBlog;
 };
 
+const deleteBlog = async (id: string) => {
+  const blog = await BlogModel.findById(id);
+  if (!blog) {
+    throw new Error('Blog not found');
+  }
+  
+  // Extract the image paths from the product data
+  const thumbnailPath = blog?.photo;
+
+  if (thumbnailPath) {
+    deleteFile(thumbnailPath);
+  }
+
+  return await BlogModel.findByIdAndDelete(id);
+};
+
 export const blogServices = {
   createBlog,
   getBlogById,
   getAllBlog,
   editBlog,
+  deleteBlog,
 };
 
