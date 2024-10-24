@@ -41,8 +41,20 @@ const createBlog = catchAsync(async (req: Request, res: Response) => {
 });
 
 
+const editBlog = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  // Call the service method to update the blog by ID and get the result
+  const result = await blogServices.editBlog(id, req.body);
+  // Send a success response with the updated resource data
+  sendResponse(res, {
+    message: 'Blog Updated Successfully',
+    data: result,
+  });
+});
+
 export const blogControllers = {
   createBlog,
   getSingleBlog,
   getAllBlog,
+  editBlog
 }

@@ -7,6 +7,8 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 const app: Application = express();
 
 
+// Middleware setup
+
 const formatDate = (date: Date) => {
   const options: Intl.DateTimeFormatOptions = {
     month: 'numeric',
