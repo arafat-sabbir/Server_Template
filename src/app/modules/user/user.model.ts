@@ -1,35 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
 import { TUser } from './user.interface';
 
-// Define an interface representing a User document
-
-// Define the User schema
-const UserSchema: Schema<TUser> = new Schema(
+const userSchema = new Schema<TUser>(
   {
-    name: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    photo: {
-      type: String,
-    }
+    name: { type: String },
+    email: { type: String, unique: true, required: true },
+    password: { type: String },
+    otp: { type: String },
+    isOtpVerified: { type: Boolean, default: false },
+    otpExpiry: { type: Date },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
-// Create the User model
-const UserModel = mongoose.model<TUser>('User', UserSchema);
-
-// Export the User model
+const UserModel = mongoose.model<TUser>('User', userSchema);
 export default UserModel;
-

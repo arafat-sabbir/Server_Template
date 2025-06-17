@@ -9,10 +9,10 @@ const handleDuplicateError = (err: any) => {
   const errorSources: TErrorSources = [
     {
       path: err.keyValue,
-      message: `${extractedMessage} already exists`,
+      message: `${extractedMessage} already exists try another`,
     },
   ];
-  return { statusCode, message: `${extractedMessage} already exists`, errorSources };
+  return { statusCode, message: `${extractedMessage} already exists try another`, errorSources };
 };
 
 export default handleDuplicateError;

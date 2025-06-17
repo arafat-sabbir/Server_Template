@@ -1,15 +1,8 @@
-/**
- * Type definition for User.
- *
- * This type defines the structure of a single user object.
- * @interface TUser
- */
-export interface TUser {
+export type TUser = {
   name: string;
-  email: string;
   password: string;
-  photo: string;
-  isVerified: boolean;
-  role:"user" | "admin"
-}
-
+  email: string;
+  otp: string;
+  isOtpVerified: boolean;
+  otpExpiry: Date;
+};

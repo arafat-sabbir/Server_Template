@@ -1,34 +1,51 @@
-import { Request, Response } from 'express';
-import { userServices } from './user.service';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
+import { userService } from './user.service';
 
-// Controller function to handle the creation of a single User.
-const createUser = catchAsync(async (req: Request, res: Response) => {
-  // Call the service method to create a new user and get the result
-  const result = await userServices.createUser(req.body);
-  // Send a success response with the created resource data
-  sendResponse(res, {
-    message: 'New user Added Successfully',
-    data: result,
-  });
+//Fint User
+const findUser = catchAsync(async (req, res) => {
+  const result = await userService.findUser(req.body);
+  return sendResponse(res, { data: {}, message: result.message });
 });
 
-
-// Controller function to handle Login
-const loginUser = catchAsync(async (req: Request, res: Response) => {
-  // Call the service method to create a new user and get the result
-  const result = await userServices.loginUser(req.body);
-  // Send a success response with the created resource data
-  sendResponse(res, {
-    message: 'Log In Successful',
-    data: result,
-  });
+//Register User
+const registerUser = catchAsync(async (req, res) => {
+  const result = await userService.registerUser(req.body);
+  return sendResponse(res, { data: result, message: result.message });
 });
 
+//update user
+const updateUser = catchAsync(async (req, res) => {
+  const { user } = req.user;
+  const result = await userService.updateUser(user, req.body);
+  return sendResponse(res, { data: result, message: 'User Updated Successfully' });
+});
 
+//Verify Otp
+const verifyOtp = catchAsync(async (req, res) => {
+  const result = await userService.verifyOtp(req.body);
+  return sendResponse(res, { data: result, message: 'Otp Verified SuccessFully Please Login' });
+});
 
-export const userControllers = {
-  createUser,
-  loginUser
+//login user
+
+const loginUser = catchAsync(async (req, res) => {
+  const result = await userService.loginUser(req.body);
+  return sendResponse(res, { data: result, message: 'Logged In SuccessFully' });
+});
+
+//Get User By User Token
+const getUser = catchAsync(async (req, res) => {
+  const { user } = req.user;
+  const result = await userService.getUser(user);
+  return sendResponse(res, { data: result, message: 'User Retrieved Successfully' });
+});
+
+export const userController = {
+  registerUser,
+  findUser,
+  verifyOtp,
+  loginUser,
+  getUser,
+  updateUser,
 };
