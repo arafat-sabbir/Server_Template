@@ -1,51 +1,27 @@
-import catchAsync from '../../utils/catchAsync';
-import sendResponse from '../../utils/sendResponse';
-import { userService } from './user.service';
+import { userServices } from "./user.service";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
 
-//Fint User
-const findUser = catchAsync(async (req, res) => {
-  const result = await userService.findUser(req.body);
-  return sendResponse(res, { data: {}, message: result.message });
+/** Create a new User */
+const createUser = catchAsync(async (req, res) => {
+  const result = await userServices.createUser(req.body);
+  sendResponse(res, { message: "New User created successfully", data: result });
 });
 
-//Register User
-const registerUser = catchAsync(async (req, res) => {
-  const result = await userService.registerUser(req.body);
-  return sendResponse(res, { data: result, message: result.message });
+/** Get a single User by ID */
+const getSingleUser = catchAsync(async (req, res) => {
+  const result = await userServices.getUserById(req.params.id);
+  sendResponse(res, { message: "User retrieved successfully", data: result });
 });
 
-//update user
-const updateUser = catchAsync(async (req, res) => {
-  const { user } = req.user;
-  const result = await userService.updateUser(user, req.body);
-  return sendResponse(res, { data: result, message: 'User Updated Successfully' });
+/** Get all Users */
+const getAllUser = catchAsync(async (req, res) => {
+  const result = await userServices.getAllUser(req.query);
+  sendResponse(res, { message: "Users retrieved successfully", data: result });
 });
 
-//Verify Otp
-const verifyOtp = catchAsync(async (req, res) => {
-  const result = await userService.verifyOtp(req.body);
-  return sendResponse(res, { data: result, message: 'Otp Verified SuccessFully Please Login' });
-});
-
-//login user
-
-const loginUser = catchAsync(async (req, res) => {
-  const result = await userService.loginUser(req.body);
-  return sendResponse(res, { data: result, message: 'Logged In SuccessFully' });
-});
-
-//Get User By User Token
-const getUser = catchAsync(async (req, res) => {
-  const { user } = req.user;
-  const result = await userService.getUser(user);
-  return sendResponse(res, { data: result, message: 'User Retrieved Successfully' });
-});
-
-export const userController = {
-  registerUser,
-  findUser,
-  verifyOtp,
-  loginUser,
-  getUser,
-  updateUser,
+export const userControllers = {
+  createUser,
+  getSingleUser,
+  getAllUser,
 };

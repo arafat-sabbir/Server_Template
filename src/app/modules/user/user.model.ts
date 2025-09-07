@@ -1,17 +1,15 @@
-import mongoose, { Schema } from 'mongoose';
-import { TUser } from './user.interface';
+import { Schema, model, Document } from "mongoose";
+import { IUser } from "./user.interface";
 
-const userSchema = new Schema<TUser>(
+/** User schema definition */
+const UserSchema = new Schema<IUser>(
   {
-    name: { type: String },
-    email: { type: String, unique: true, required: true },
-    password: { type: String },
-    otp: { type: String },
-    isOtpVerified: { type: Boolean, default: false },
-    otpExpiry: { type: Date },
+    // Define fields here
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
-const UserModel = mongoose.model<TUser>('User', userSchema);
-export default UserModel;
+export const UserModel = model<IUser>(
+  "User",
+  UserSchema
+);

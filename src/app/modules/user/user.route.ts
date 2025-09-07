@@ -1,35 +1,15 @@
-import express from 'express';
-import validateRequest from '../../middlewares/validateRequest';
-import { userValidation } from './user.validation';
-import { userController } from './user.controller';
-import AuthorizeRequest from '../../middlewares/auth';
+import { Router } from "express";
+import { userControllers } from "./user.controller";
+import validateRequest from "../../middlewares/validateRequest";
+import { userValidation } from "./user.validation";
 
-const router = express.Router();
+const router = Router();
 
+/** Create a new User */
 router.post(
-  '/register',
+  "/create-user",
   validateRequest(userValidation.createUserSchema),
-  userController.registerUser
-);
-
-router.post('/find-user', validateRequest(userValidation.findUserSchema), userController.findUser);
-
-router.post(
-  '/verify-otp',
-  validateRequest(userValidation.otpVerifySchema),
-  userController.verifyOtp
-);
-
-router.post('/login', validateRequest(userValidation.loginUserSchema), userController.loginUser);
-
-router.get('/get-user', AuthorizeRequest(), userController.getUser);
-
-router.patch(
-  '/update-user',
-  AuthorizeRequest(),
-
-  validateRequest(userValidation.updateUserSchema),
-  userController.updateUser
+  userControllers.createUser
 );
 
 export const userRoutes = router;

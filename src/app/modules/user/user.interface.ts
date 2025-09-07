@@ -1,8 +1,6 @@
-export type TUser = {
-  name: string;
-  password: string;
-  email: string;
-  otp: string;
-  isOtpVerified: boolean;
-  otpExpiry: Date;
+import { Document } from "mongoose";
+
+export interface IUser extends Document {
+  // Example field, replace with real ones
+  id?: string;
 };
