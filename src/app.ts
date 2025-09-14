@@ -1,11 +1,10 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import allRoutes from './app/routes';
-import path from "path"
+import path from 'path';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 
 const app: Application = express();
-
 
 // Middleware setup
 
@@ -41,7 +40,6 @@ const requestLogger = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-
 // Middleware setup
 app.use(
   cors({
@@ -69,8 +67,11 @@ app.get('/', test);
 app.use(globalErrorHandler);
 
 // Handle 404 - Not Found
-app.all('/*', (req: Request, res: Response) => {
-  res.status(404).json({ success: false, message: `Route Is Not Found ${req.url}` });
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.url}`,
+  });
 });
 
 export default app;
